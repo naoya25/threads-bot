@@ -1,0 +1,9 @@
+{
+  "[python]": {
+    "editor.formatOnType": true,
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "pylint.args": [
+    "\"pylint.args\": [\"--disable=C0111\", \"--max-line-length=120\"]"
+  ]
+}
