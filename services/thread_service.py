@@ -29,7 +29,6 @@ def post_thread(
         if not media_url:
             return None
         logging.info(f"Media URL: {media_url}")
-        time.sleep(10)
 
     thread_id = (
         create_thread(user_id, text, media_url, media_type)
@@ -40,7 +39,8 @@ def post_thread(
         raise Exception("スレッドの作成に失敗しました")
     logging.info(f"Thread ID: {thread_id}")
 
-    time.sleep(10)
+    if media_type == MediaType.VIDEO:
+        time.sleep(30)
 
     response = publish_thread(user_id, thread_id)
     logging.info(f"Finished: {response}")
