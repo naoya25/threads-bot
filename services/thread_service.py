@@ -3,6 +3,10 @@ from api.media import upload_media
 from models.media_type import MediaType
 from typing import Optional
 import time
+import logging
+from config.logging import setup_logging
+
+setup_logging()
 
 
 def post_thread(
@@ -13,9 +17,8 @@ def post_thread(
     user_id = get_user_id()
     if not user_id:
         return None
-    print(f"User ID: {user_id}")
-
-    print(f"Text: {text}")
+    logging.info(f"User ID: {user_id}")
+    logging.info(f"Text: {text}")
 
     media_url = None
     if media_path:
@@ -25,7 +28,7 @@ def post_thread(
         media_url = upload_media(media_path, media_type)
         if not media_url:
             return None
-        print(f"Media URL: {media_url}")
+        logging.info(f"Media URL: {media_url}")
         time.sleep(10)
 
     thread_id = (
@@ -35,10 +38,10 @@ def post_thread(
     )
     if not thread_id:
         raise Exception("スレッドの作成に失敗しました")
-    print(f"Thread ID: {thread_id}")
+    logging.info(f"Thread ID: {thread_id}")
 
     time.sleep(10)
 
     response = publish_thread(user_id, thread_id)
-    print(f"Finished: {response}")
+    logging.info(f"Finished: {response}")
     return response

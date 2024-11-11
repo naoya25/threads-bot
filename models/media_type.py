@@ -7,8 +7,8 @@ class MediaType(Enum):
 
     @property
     def lower(self):
-        return self.value
+        return self.value.lower()
 
     @property
     def upper(self):
-        return self.name
+        return self.value.upper()

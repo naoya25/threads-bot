@@ -4,6 +4,7 @@ import cloudinary.uploader
 import os
 import ulid
 from dotenv import load_dotenv
+import logging
 
 load_dotenv()
 
@@ -16,9 +17,13 @@ cloudinary.config(
 
 
 def upload_media(media_path, media_type: MediaType):
-    upload_result = cloudinary.uploader.upload(
-        media_path,
-        public_id=f"threads/{ulid.new()}",
-        resource_type=media_type.lower,
-    )
-    return upload_result["secure_url"]
+    try:
+        upload_result = cloudinary.uploader.upload(
+            media_path,
+            public_id=f"threads/{ulid.new()}",
+            resource_type=media_type.lower,
+        )
+        return upload_result["secure_url"]
+    except Exception as e:
+        logging.error(f"Error uploading media: {e}")
+        return None
