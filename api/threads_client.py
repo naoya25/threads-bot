@@ -1,21 +1,34 @@
 import requests
-from config.settings import ACCESS_TOKEN, API_BASE_URL
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+API_BASE_URL = "https://graph.threads.net/v1.0"
 
 
-def get_request(endpoint):
-    url = f"{API_BASE_URL}{endpoint}"
-    headers = {"Authorization": f"Bearer {ACCESS_TOKEN}"}
-    response = requests.get(url, headers=headers)
-    response.raise_for_status()
-    return response.json()
+class ThreadsClient:
+    def __init__(self):
+        self.base_url = API_BASE_URL
+        self.headers = {
+            "Authorization": f"Bearer {ACCESS_TOKEN}",
+            "Content-Type": "application/json",
+        }
 
+    def get(self, endpoint):
+        response = requests.get(
+            f"{self.base_url}{endpoint}",
+            headers=self.headers,
+        )
+        response.raise_for_status()
+        return response.json()
 
-def post_request(endpoint, data):
-    url = f"{API_BASE_URL}{endpoint}"
-    headers = {
-        "Authorization": f"Bearer {ACCESS_TOKEN}",
-        "Content-Type": "application/json",
-    }
-    response = requests.post(url, json=data, headers=headers)
-    response.raise_for_status()
-    return response.json()
+    def post(self, endpoint, data):
+        response = requests.post(
+            f"{self.base_url}{endpoint}",
+            json=data,
+            headers=self.headers,
+        )
+        response.raise_for_status()
+        return response.json()

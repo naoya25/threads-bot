@@ -1,20 +1,17 @@
-from services.user_service import fetch_user_id
-from services.thread_service import post_text_thread, publish_text_thread
+from services.thread_service import post_thread
+
 
 def post_text(text="Hello World!"):
-    user_id = fetch_user_id()
-    print("ユーザーID:", user_id)
-    if not user_id:
-        return
+    return post_thread(text)
 
-    creation_id = post_text_thread(user_id, text)
-    print("スレッドの作成に成功しました:", creation_id)
-    if not creation_id:
-        return
 
-    publish_response = publish_text_thread(user_id, creation_id)
-    if publish_response:
-        print("スレッドの公開に成功しました:", publish_response)
+def post_text_with_image(text="Hello World!", image_path=None):
+    return post_thread(text, media_path=image_path, media_type="IMAGE")
+
+
+def post_text_with_video(text="Hello World!", video_path=None):
+    return post_thread(text, media_path=video_path, media_type="VIDEO")
+
 
 if __name__ == "__main__":
     post_text("Sample Post Text")
