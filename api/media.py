@@ -1,3 +1,4 @@
+from models.media_type import MediaType
 import cloudinary
 import cloudinary.uploader
 import os
@@ -13,8 +14,11 @@ cloudinary.config(
     secure=True,
 )
 
-def upload_media(image_path):
+
+def upload_media(media_path, media_type: MediaType):
     upload_result = cloudinary.uploader.upload(
-        image_path, public_id=f"threads/{ulid.new()}"
+        media_path,
+        public_id=f"threads/{ulid.new()}",
+        resource_type=media_type.lower,
     )
     return upload_result["secure_url"]

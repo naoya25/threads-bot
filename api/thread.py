@@ -24,7 +24,6 @@ def create_thread(
             raise ValueError("無効なメディアタイプです")
         data[f"{media_type.lower}_url"] = media_url
         data["media_type"] = media_type.upper
-
     return client.post(endpoint, data).get("id")
 
 
